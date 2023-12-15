@@ -3,7 +3,7 @@
 	<head>
 	    <meta charset="UTF-8">
 	    <title>Product View</title>
-	    <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}"/>
+	    <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" />
 	</head>
 	<body>
 	    <h1>상세보기</h1>

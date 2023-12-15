@@ -15,7 +15,7 @@
 			</select>
 			
 			<div>
-				<label for="username">계정</label>
+				<label for="username">아이디</label>
 				<input type="text" th:field="*{username}"/>
 			</div>
 			
