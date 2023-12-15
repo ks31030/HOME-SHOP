@@ -56,7 +56,7 @@ public class ProductController {
 	@PostMapping("/product/new")
 	public String productSave(Product product, MultipartFile imgFile) throws IllegalStateException, IOException {	
 		productService.saveProduct(product, imgFile);
-		return "redirect:/"; 
+		return "redirect:/product/list"; 
 		//상품 리스트 페이지로 변경해서 상품 등록 후 이동하는 경로를 바꿔줄 수 있음
 	}
 	
