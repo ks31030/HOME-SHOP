@@ -15,7 +15,7 @@
 	    		<p th:text="'안녕하세요, ' + ${#authentication.name} + '님 환영합니다.'"></p>
 			</div>
 		
-		<a th:href="@{/product/list}">접속</a>
+		<a sec:authorize="isAuthenticated()" th:href="@{/product/list}">접속</a>
 		</div>
 	</body>
 </html>

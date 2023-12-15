@@ -4,4 +4,5 @@
     <fullyQualifiedTypeName name="jakarta.persistence.FetchType"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="jakarta.persistence.criteria.Order"/>
+    <fullyQualifiedTypeName name="com.kh.springdb.model.Comment"/>
 </qualifiedTypeNameHistroy>

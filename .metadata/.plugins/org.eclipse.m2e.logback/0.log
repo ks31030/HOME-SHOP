@@ -1755,3 +1755,6 @@ Caused by: java.io.EOFException: no more data available START_DOCUMENT seen <?xm
 2023-12-15 21:25:06,184 [Worker-128: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2023-12-15 21:25:06,208 [Worker-128: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 12 resources from src\main\resources to target\classes
 2023-12-15 21:25:06,247 [Worker-128: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\semiFinal\Final-JPA-Shop\src\test\resources
+2023-12-15 21:34:36,940 [Worker-136: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2023-12-15 21:34:36,941 [Worker-136: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2023-12-15 21:34:36,949 [Worker-136: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\semiFinal\Final-JPA-Shop\src\test\resources
