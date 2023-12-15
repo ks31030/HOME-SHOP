@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Cart</title>
+<link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" />
+</head>
+<body>
+	<h1>장바구니</h1>
+	<div th:if="${cart != null}">
+        <table>
+            <thead>
+                <tr>
+					<th>이미지</th> 
+                    <th>상품명</th>
+                    <th>가격</th>
+                    <th>수량</th>
+                    <th>합계</th>
+                   
+                </tr>
+            </thead>
+            <tbody th:each="cartProduct : ${cart.cartProducts}">
+                <tr>
+					<td>
+						<img th:if="${cartProduct.product.getImgPath() ne null and not #strings.isEmpty(cartProduct.product.getImgPath())}"
+				     th:src="@{${cartProduct.product.getImgPath()}}" 
+				     alt="Product Image" style="max-width: 100px; max-height: 100px;">
+				
+				<img th:unless="${cartItem.item.getImgPath() ne null and not #strings.isEmpty(cartItem.item.getImgPath())}"
+				     th:src="@{/images/noimg.jpg}"   alt="No Image" style="max-width: 100px; max-height: 100px;">
+                    </td>
+                    <td th:text="${cartItem.item.name}"></td>
+                    <td th:text="${cartItem.item.price}"></td>
+                    <td th:text="${cartItem.count}"></td>
+                    <td th:text="${cartItem.item.price * cartItem.count}"></td>
+                  
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Total price and total count -->
+        <p>총가격 : <span th:text="${cart.totalAmount}"></span></p>
+        <p>총수량 : <span th:text="${cart.totalCount}"></span></p>
+
+		<div th:if="${param.checkoutStatus == 'success'}">
+		    <p>결제가 완료되었습니다.</p>
+		   
+		</div>
+		<!--
+		param.checkoutStatus == 'empty'
+		http://127.0.0.1:8081/cart? checkoutStatus =success
+		-->
+		<div th:if="${param.checkoutStatus == 'empty'}">
+		    <p>장바구니가 비어있습니다.</p>
+		</div>
+
+
+		<!-- Your existing form -->
+		<form method="post" action="/cart/checkout">
+		    <button type="submit">결제하기</button>
+		</form>
+
+    </div>
+    <div th:unless="${cart != null}" class="no-items">
+        <p>카트에 담긴 제품이 없습니다.</p>
+    </div>
+</body>
+</html>

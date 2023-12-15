@@ -1,0 +1,14 @@
+package com.kh.springdb.controller;
+
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.kh.springdb.model.Product;
+
+public class CartController {
+	@GetMapping("/product/new")
+	public String productSaveForm(Model model) {
+		model.addAttribute("product", new Product());
+		return "addProductForm";
+	}
+}

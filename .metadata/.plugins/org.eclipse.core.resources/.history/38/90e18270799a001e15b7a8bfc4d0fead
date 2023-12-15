@@ -1,0 +1,9 @@
+package com.kh.springdb.controller;
+
+public class CartController {
+	@GetMapping("/cart/add")
+	public String productSaveForm(Model model) {
+		model.addAttribute("product", new Product());
+		return "addProductForm";
+	}
+}

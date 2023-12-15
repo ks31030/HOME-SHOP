@@ -2,7 +2,8 @@ package com.kh.springdb.controller;
 
 import java.io.IOException;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,15 +12,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.springdb.model.Comment;
 import com.kh.springdb.model.Product;
 import com.kh.springdb.service.CommentService;
 import com.kh.springdb.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 @Controller
 @RequiredArgsConstructor
 public class ProductController {
+	@Autowired
 	private final ProductService productService;
 	
 	@GetMapping("/")
@@ -42,8 +44,6 @@ public class ProductController {
 		model.addAttribute("paging", paging);
 		return "product_List";
 	}
-
-
 	
 	//상품 등록 페이지 - 조회
 	@GetMapping("/product/new")
@@ -67,23 +67,48 @@ public class ProductController {
 		//하나의 아이디 값을 가지고 와서 지정된 제품을 모든 내용을 보여줄 수 있도록 함
 		Product product = productService.getProductById(id); 
 		//model.addAttribute("product", product) 는
-		//      "product" templates 밑에서 tymeleaf로 불러올 변수명을 product로 지정
+		//      "product" templates 밑에서 thymeleaf로 불러올 변수명을 product로 지정
 		//	Product product	만들어준 필드명을 가지고와서 service로 불러온 내용을 	
 		// "product" 안에 저장해준다는 의미
 		model.addAttribute("product", product);
 		return "product_detail";
 	}
 	
-	private CommentService commentService;
-	//댓글 작성하기 위한 postMapping
+	//상품 삭제하기
+	@GetMapping("/product/delete/{id}")
+	public String productDelete(@PathVariable int id) {
+		productService.deleteProductById(id);
+		return "redirect:/product/list";
+	}
+	
+	//상품 수정하기
+	@GetMapping("/product/update/{id}")
+	public String productUpdate(@PathVariable int id, Model model) {
+		//상세보기를 검색할 조건
+		Product product = productService.getProductById(id);
+		//하나의 아이디 값을 가지고 와서 그 아이디가 속해있는 데이터를 product안에 저장한다는 의미
+		model.addAttribute("product",product);
+		return "updateProductForm";
+	}
+	
+	@Autowired
+	private final CommentService commentService;
+	
+	//댓글 작성
 	@PostMapping("/addComment")
-	public String addComment(@RequestParam(value="productId") int productId, @RequestParam(value="commentContent") String commentContent) {
+	public String addComment(@RequestParam int productId, @RequestParam String commentContent) {
 		commentService.addComment(productId, commentContent);
 		return "redirect:/product/detail/" + productId;
 	}
 	
+	//댓글 삭제
+	@GetMapping("/deleteComment/{productId}")
+	public String deleteComment(@PathVariable Long productId) {
+		commentService.deleteComment(productId);
+		return "redirect:/product/list";
+	}
+	
 	//like 한 내용 받아줄 수 있게 PostMapping
-//	@PostMapping(""
 //	public String likeProduct(/*추가로 나중에 변수 값 넣어줄 것*/) {
 //		productService.likeProduct(/*추후 아이디 값이나 like를 넣어줄 수 있는 변수값 넣어줄 예정*/);
 //		return "redirect:/list";

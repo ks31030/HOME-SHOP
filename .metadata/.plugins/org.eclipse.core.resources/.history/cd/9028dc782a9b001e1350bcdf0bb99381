@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Edit Product</title>
+		<link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" />
+	</head>
+	<body>
+		<h1>상품 이미지 및 상품 내용 에디트</h1>
+		<form th:action="@{/product/new}" method="post" enctype="multipart/form-data">
+			<label>상품 판매 / 품절</label><br>
+			<input type="radio" name="isSoldout" id="isSoldout" value="0">판매중<br>
+			<input type="radio" name="isSoldout" id="isSoldout" value="1">재고없음<br>
+			
+			<input type="hidden" name="id" th:value="${product.id}">
+			
+			<label>상품명 : </label>
+			<input type="text" id="hidden" name="name" placeholder="상품명을 입력하세요."> 
+			<br>
+			<label>상품 설명 : </label>
+			<input type="text" id="hidden" name="text" placeholder="상품설명을 입력하세요."> 
+			<br>
+			<label>상품 가격 : </label>
+			<input type="text" id="hidden" name="price" placeholder="상품가격을 입력하세요."> 
+			<br>
+			<label>상품 재고 : </label>
+			<input type="text" id="hidden" name="stock" placeholder="상품재고를 입력하세요."> 
+			<br>
+			<label>이미지 : </label>
+			<input type="file" id="hidden" name="imgFile"> 
+			<br>
+			<button type="submit">상품수정</button>
+		</form>
+		<a th:href="@{/product/list}">돌아가기</a>
+	</body>
+</html>

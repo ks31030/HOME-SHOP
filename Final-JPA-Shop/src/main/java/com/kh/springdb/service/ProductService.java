@@ -66,5 +66,10 @@ public class ProductService {
 	        productRepository.save(product);
 	    }
 	}
-
+	
+	//상품 삭제를 위한 서비스 생성
+	public void deleteProductById(int id) {
+		productRepository.deleteById(id);
+	}
+	
 }
