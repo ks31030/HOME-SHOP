@@ -1,0 +1,10 @@
+package com.kh.springdb.controller;
+
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class CartController {
+	//장바구니에 물건 넣기
+	@PostMapping("/product/cart/{id}/{productId}")
+	
+}

@@ -1,0 +1,25 @@
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.kh.springdb.model.Like;
+import com.kh.springdb.repository.LikeRepository;
+
+@Service
+public class LikeService {
+
+    private final LikeRepository likeRepository;
+
+    @Autowired
+    public LikeService(LikeRepository likeRepository) {
+        this.likeRepository = likeRepository;
+    }
+
+    public int toggleLike(Like like) {
+        // 좋아요 상태를 토글하고 실제 데이터베이스에 저장
+        like.setLiked(!like.isLiked());
+        likeRepository.save(like);
+        
+        // 현재 상품에 대한 총 좋아요 수를 반환
+        return likeRepository.countByProductIdAndLiked(like.getProductId(), true);
+    }
+}

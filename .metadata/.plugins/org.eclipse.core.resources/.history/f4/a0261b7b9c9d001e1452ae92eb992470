@@ -1,0 +1,13 @@
+@Repository
+public class CartRepositoryImpl implements CartRepository {
+
+    @Override
+    public Cart getCartByUsername(String username) {
+        // 실제로는 데이터베이스에서 해당 사용자의 장바구니 정보를 조회하는 로직을 추가
+        // 예시로 간단하게 구현 (실제로는 JPA 등을 사용하여 조회)
+        Cart cart = new Cart();
+        // 여기서 필요한 로직을 추가하여 장바구니 정보를 채움
+        return cart;
+    }
+
+}

@@ -1,0 +1,16 @@
+package com.kh.springdb.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.kh.springdb.model.CartProduct;
+
+public interface CartProductRepository extends JpaRepository<CartProduct, Integer> {
+	List<CartProduct> findCartProductById(int id);
+	CartProduct findCartProductById(int id);
+	
+	List<CartProduct> findById(int id);
+	
+	CartProduct findByCartIdAndId(Long cartId, int id);
+}

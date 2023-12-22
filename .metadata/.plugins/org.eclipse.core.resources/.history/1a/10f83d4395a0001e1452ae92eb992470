@@ -1,0 +1,30 @@
+package com.kh.springdb.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.kh.springdb.service.CartService;
+import com.kh.springdb.service.ProductService;
+
+import ch.qos.logback.core.model.Model;
+import lombok.RequiredArgsConstructor;
+
+@Controller
+@RequestMapping("cart")
+@RequiredArgsConstructor
+public class CartController {
+	private final CartService cartService;
+	private final ProductService productService;
+	
+	public CartController(CartService cartService, ProductService productService) {
+		this.cartService = cartService;
+		this.productService = productService;
+	}
+	
+	@GetMapping
+	public String viewCart(Model model) {
+		
+	}
+	
+}

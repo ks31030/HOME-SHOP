@@ -1,0 +1,54 @@
+package com.kh.springdb.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+public class CartProduct {
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="cartProduct_seq")
+	@SequenceGenerator(name="cartProduct_seq", sequenceName="cartProduct_seq", allocationSize=1)
+	private int id;
+	
+	//어떤 아이템인지 알기위해 Item 클래스를 가지고옴
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "product_id")
+	private Product product;
+	
+	//장바구니에 담아야하기 때문에 장바구니 클래스도 가지고 옴
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "cart_id")
+	private Cart cart;
+	
+	//상품갯수
+	private int count;
+	
+	public static CartProduct createCartItem(/*Cart cart, */Product product, int amount) {
+		CartProduct cartProduct = new CartProduct();
+		//cartItem.setCart(cart);
+		cartProduct.setProduct(product);
+		cartProduct.setCount(amount);
+		return cartProduct;
+	}
+	
+	// 이미 담겨있는 물건이나 또는 담을 물건이 있을 경우 추가
+	public void addCount(int count) {
+		this.count += count;
+	}
+}

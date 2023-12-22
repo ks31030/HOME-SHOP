@@ -1,0 +1,18 @@
+package com.kh.springdb.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.kh.springdb.model.SiteUser;
+import com.kh.springdb.service.UserService;
+
+@Controller
+public class CartController {
+	//장바구니에 물건 넣기
+	@PostMapping("/product/cart/{id}/{productId}")
+	public String addCartProduct(@PathVariable("id") int id, @PathVariable("productId") int productId, int amount) {
+	
+		SiteUser siteUser = UserService.findUser(id);
+	}
+}

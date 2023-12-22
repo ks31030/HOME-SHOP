@@ -1,0 +1,21 @@
+package com.kh.springdb.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Like {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long productId;
+
+    private boolean liked;
+
+    // Getter, Setter, Constructors 등 필요한 메서드 추가
+
+}

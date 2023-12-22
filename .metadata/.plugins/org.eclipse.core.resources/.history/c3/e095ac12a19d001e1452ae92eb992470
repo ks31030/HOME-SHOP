@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+		<meta charset="UTF-8">
+		<title>Product List</title>
+		<link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}"/>
+		<!--
+		<style>
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .product-item {
+            width: 30%; 
+            margin: 1%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .product-image {
+            max-width: 70%;
+            height: auto;
+        }
+	    </style>
+	    -->
+		<script>
+			function toggleLike(productId) {
+	            var likesSpan = document.getElementById("likes-" + productId);
+	            var currentLikes = parseInt(likesSpan.innerText);
+	
+	            // 실제로는 서버에 좋아요 상태를 토글하기 위한 AJAX 요청을 보내야 합니다.
+	            // 이 예제에서는 AJAX 요청을 시뮬레이션하고 있으니 실제 프로젝트에서는 실제 요청으로 대체해야 합니다.
+	            var liked = !likesSpan.classList.contains("liked");
+	            if (liked) {
+	                currentLikes++;
+	            } else {
+	                currentLikes--;
+	            }
+	
+	            // UI 업데이트
+	            likesSpan.innerText = currentLikes;
+	            likesSpan.classList.toggle("liked");
+	
+	            // 서버에 좋아요 상태 업데이트를 위한 실제 AJAX 요청을 보내는 로직을 여기에 추가하세요.
+	        }
+		</script>
+	
+	</head>
+	<body>
+		<h1>상품목록</h1>
+		<a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
+		<a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+	    <a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+		<div th:if="${#authorization.expression('isAuthenticated()')}">
+			<p th:text="'안녕하세요, ' + ${#authentication.name} + '님 환영합니다.'"></p>
+		</div>
+			
+		<a th:href="@{/product/new}">상품추가</a>
+		<div class="product-container" th:each="product, loop : ${paging.content}">
+    		<div class="product-item">
+	    		<div th:if="${product.imgName != null and product.imgPath != null}">		
+					<img class="product-image" th:src="@{${product.imgPath}}"/>
+			    </div>
+			    <div th:unless="${product.imgName != null and product.imgPath != null}">
+		        	<img class="product-image" th:src="@{'/img/notImg.jpg'}"/>
+			    </div>
+				<br>
+				<label>제품명</label>
+				<span th:text="${product.name}"></span>
+				<br>
+				<label>가격</label>
+				<span th:text="${product.price}"></span>
+				<br>
+				<div class="product-container" th:each="product, loop : ${paging.content}">
+			        <div class="product-item">
+			            <button th:if="${#authorization.expression('isAuthenticated()')}"
+						        th:onclick="'toggleLike(' + ${product.id} + ')'"
+						        type="button"
+						        th:class="${product.likes > 0 ? 'liked' : ''}">
+						    좋아요
+						</button>
+						<span id="likes-${product.id}" th:text="${product.likes}"></span> Likes
+			        </div>
+			    </div>
+				<br>
+				<a th:href="@{'/product/detail/' + ${product.id}}">상세보기</a>
+							
+				<!-- 장바구니에 상품을 담고자 한다면 장바구니에 담기 버튼 생성해서 담아주기 -->
+				<form sec:authorize="isAuthenticated()" th:action="@{/cart/add}" method="post">
+					<input type="hidden" name="productId" th:value="${product.id}"/>
+					<button type="submit">장바구니담기</button>
+				</form>	
+						
+				<!-- 게시물에 번호 주기 -->
+				<!--  div th:text="${paging.getTotalElements 
+				-(paging.number * paging.size) -loop.index}"></div-->
+				<div th:text="${paging.getTotalElements -((paging.number-1) *paging.size) -loop.index}"></div>
+			</div>
+		</div>
+		<!--  페이징을 하기 위한 번호 목록 만들어주기 -->
+	    <div th:if="${!paging.isEmpty()}">
+			<ul>
+				<li th:classappend="${!paging.hasPrevious} ? 'disabled'">
+					<!--
+	            	"(큰 따옴표)로 감싸진 thymeleaf 안에
+	            	'(작은 따옴표)로 감싸서 기존에 문자와 코드를 구분했지만
+	            	|(파이프)로 감싸진 문구는 동적으로 바뀌는 문자열을 의미함
+					-->
+					<a th:href="@{|?page=${paging.number-1}|}">
+						<span>이전</span>
+               		</a>
+				</li>
+	 			<li th:each="page: ${#numbers.sequence(1, paging.totalPages)}" 
+				th:if="${page >= paging.number-3 and page <= paging.number+3}"
+				th:classappend="${page == paging.number} ? 'active'" 
+				>
+                	<a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
+				</li>
+				<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                	<a th:href="@{|?page=${paging.number+1}|}">
+                   		<span>다음</span>
+					</a>
+	            </li>
+			</ul>
+			<a th:href="@{/}">나가기</a>
+		</div>	
+	</body>
+</html>
+			
+		<!-- 
+		
+			paging.isEmpty = 
+				게시물이 존재하는지 존재하지 않는지 체크
+			paging.totalElements = 
+				전체 게시물 개수
+			paging.totalPages = 
+				전체 페이지 개수
+			paging.size = 
+				페이지당 보여줄 게시물 수
+			paging.number = 
+				현재 페이지 번호
+			paging.hasPrevios = 
+				이전 페이지가 존재하는지 확인하는 존재여부
+			paging.hasNext = 
+				다음 페이지가 존재하는지 확인하고 다음페이지가 없으면 막을 수 있도록 확인해주는 여부
+		
+		 -->
+		

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Product List</title>
+    <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}"/>
+    <script>
+        function toggleLike(productId) {
+            var likesSpan = document.getElementById("likes-" + productId);
+            var currentLikes = parseInt(likesSpan.innerText);
+
+            // Simulate server request to toggle like status
+            // You should replace this with an actual AJAX request to your backend
+            var liked = !likesSpan.classList.contains("liked");
+            if (liked) {
+                currentLikes++;
+            } else {
+                currentLikes--;
+            }
+
+            // Update UI
+            likesSpan.innerText = currentLikes;
+            likesSpan.classList.toggle("liked");
+
+            // Send AJAX request to update like status on the server
+            // Add your AJAX logic here
+        }
+    </script>
+</head>
+<body>
+    <!-- ... (existing code) ... -->
+
+    <div class="product-container" th:each="product, loop : ${paging.content}">
+        <div class="product-item">
+            <!-- ... (existing code) ... -->
+            <button th:if="${#authorization.expression('isAuthenticated()')}"
+                    th:onclick="'toggleLike(' + ${product.id} + ')'"
+                    type="button"
+                    th:class="${product.likes > 0 ? 'liked' : ''}">
+                좋아요
+            </button>
+            <span id="likes-${product.id}" th:text="${product.likes}"></span> Likes
+            <!-- ... (existing code) ... -->
+        </div>
+    </div>
+
+    <!-- ... (existing code) ... -->
+
+</body>
+</html>

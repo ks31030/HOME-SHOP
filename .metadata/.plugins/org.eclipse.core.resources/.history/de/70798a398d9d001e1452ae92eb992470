@@ -1,0 +1,12 @@
+package com.kh.springdb.model;
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name="carts")
+public class Cart {
+	
+}

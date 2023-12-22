@@ -1,0 +1,14 @@
+package com.kh.springdb.model;
+
+import jakarta.persistence.Entity;
+import lombok.*;
+
+@Builder
+@NoArgsContstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+public class Cart {
+	
+}

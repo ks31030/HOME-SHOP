@@ -1,0 +1,23 @@
+package com.kh.springdb.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+public class Cart {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+	
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="site_user_id")
+	private SiteUser siteUser;//구매자
+	
+	
+}

@@ -1,12 +1,27 @@
 package com.kh.springdb.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Builder
@@ -19,8 +34,8 @@ import lombok.*;
 public class Product {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="pross_seq")
-	@SequenceGenerator(name = "pross_seq", sequenceName="pross_seq", allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="product_seq")
+	@SequenceGenerator(name = "product_seq", sequenceName="product_seq", allocationSize=1)
 	//private int productId;
 	private int id;
 	
@@ -60,6 +75,9 @@ public class Product {
     private int likes; 
     //좋아요를 받는 방법은 여러 방법이 있음
     // 1. 사용자 관계없이 카운트만 올라가게하기
-
+    
     // 2. ManytoOne이나 OneToMany 이용해서 서로 카운트 주기
+    @ManyToMany
+    private Set<SiteUser> likedBy = new HashSet<>();
+    
 }

@@ -1,0 +1,23 @@
+package com.kh.springdb.model;
+
+// Getter, Setter, 기본 생성자 추가
+public class LikeRequest {
+    private Long productId;
+    private boolean liked;
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+}
